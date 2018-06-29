@@ -1,11 +1,14 @@
 package com.zk.consumer;
 
 import com.zk.config.TopicRabbitConfig;
+import java.nio.charset.Charset;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,16 +18,18 @@ import org.springframework.stereotype.Component;
  * 若已绑定过，则无法改变绑定关系。
  */
 @Component
-@RabbitListener(bindings = @QueueBinding(
-    value = @Queue(value = TopicRabbitConfig.QUEUE_NAME_1, durable = "true"),
-    exchange = @Exchange(value = "topic_exchange", type = "topic"),
-    key = "routing.#"
-))
 public class UserDefinitionReceiver {
 
   @RabbitHandler
-  public void process(String msg) {
-    System.out.println("UserDefinitionReceiver , Receiver  : " + msg);
+  @RabbitListener(bindings = @QueueBinding(
+      value = @Queue(value = "status_change_queue", durable = "true"),
+      exchange = @Exchange(value = "status_change_exchange", type = "topic"),
+      key = "status.change.#"
+  ))
+  public void process(Message msg) {
+    byte[] body = msg.getBody();
+    String s = new String(body, Charset.forName("utf-8"));
+    System.out.println("UserDefinitionReceiver , Receiver  : " + s);
   }
 
 
