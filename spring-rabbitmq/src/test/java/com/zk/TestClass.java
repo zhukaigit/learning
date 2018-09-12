@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -34,5 +35,12 @@ public class TestClass {
       }
 
     }
+  }
+
+  @Test
+  public void test() {
+    AmqpTemplate amqpTemplate = (AmqpTemplate) context.getBean("amqpTemplate");
+    amqpTemplate.convertAndSend("status_change_exchange_2","status_change_queue_2", "zhukai");
+    System.out.println("sent msg");
   }
 }
