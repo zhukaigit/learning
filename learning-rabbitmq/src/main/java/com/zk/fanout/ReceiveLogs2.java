@@ -1,4 +1,4 @@
-package com.zk.publish;
+package com.zk.fanout;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;

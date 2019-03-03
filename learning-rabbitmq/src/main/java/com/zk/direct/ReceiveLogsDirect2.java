@@ -1,4 +1,4 @@
-package com.zk.routing;
+package com.zk.direct;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
@@ -9,12 +9,12 @@ import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import java.io.IOException;
 
-public class ReceiveLogsDirect1 {
+public class ReceiveLogsDirect2 {
 
   // 交换器名称
   private static final String EXCHANGE_NAME = "direct_logs";
   // 路由关键字
-  private static final String[] routingKeys = new String[]{"info", "warning", "error"};
+  private static final String[] routingKeys = new String[]{"error"};
 
   @SuppressWarnings("all")
   public static void main(String[] argv) throws Exception {
@@ -45,4 +45,5 @@ public class ReceiveLogsDirect1 {
     channel.basicConsume(queueName, true, consumer);
   }
 }
+
 
