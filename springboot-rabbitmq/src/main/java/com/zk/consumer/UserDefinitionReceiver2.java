@@ -1,15 +1,15 @@
 package com.zk.consumer;
 
 import com.rabbitmq.client.Channel;
-import java.nio.charset.Charset;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 import org.springframework.stereotype.Component;
+
+import java.nio.charset.Charset;
 
 /**
  * 使用@RabbitListener中的bindings属性，就不需要另外的绑定配置
