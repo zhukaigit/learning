@@ -7,7 +7,7 @@ import com.rabbitmq.client.ConnectionFactory;
 /**
  * 消息生产者
  *
- * @author zhukai
+ *  @author zhukai
  */
 public class P {
 
@@ -22,6 +22,13 @@ public class P {
     Connection connection = factory.newConnection();
 //		创建一个频道
     Channel channel = connection.createChannel();
+
+    /**
+     * confirm模式参考：@link {https://blog.csdn.net/chenxyt/article/details/79259838}
+     */
+    // 开启confirm模式
+    channel.confirmSelect();
+
 //		声明一个队列 -- 在RabbitMQ中，队列声明是幂等性的（一个幂等操作的特点是其任意多次执行所产生的影响均与一次执行的影响相同），
 // 也就是说，如果不存在，就创建，如果存在，不会对已经存在的队列产生任何影响。
     channel.queueDeclare(QUEUE_NAME, false, false, false, null);
@@ -29,6 +36,14 @@ public class P {
 //		发送消息到队列中
     channel.basicPublish("", QUEUE_NAME, null, message.getBytes("UTF-8"));
     System.out.println("P [x] Sent '" + message + "'");
+
+    // 判断是否回复
+    if (channel.waitForConfirms()) {
+      System.out.println("消息发送成功");
+    } else {
+      System.out.println("消息发送失败");
+
+    }
 //		关闭频道和连接
     channel.close();
     connection.close();
