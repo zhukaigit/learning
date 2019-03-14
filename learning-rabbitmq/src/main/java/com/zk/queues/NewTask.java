@@ -6,6 +6,8 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
 
 /**
+ * 多个消费者监听同一个queue，各个消费者分担不同的消息，加速进度。
+ * 总之，一个queue里的同一个消息只会发送给一个消费者，除非消费者消费失败，或者没有ack
  * @author zhukai
  */
 public class NewTask {
